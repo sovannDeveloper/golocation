@@ -1,0 +1,46 @@
+<!-- IFRAME CONTENT (on iframe-domain.com) -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Permissions-Policy" content="geolocation=(self)">
+</head>
+<body>
+    <button onclick="getLocation()">Get My Location</button>
+    <div id="map"></div>
+    
+    <script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById("map").innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    
+    function showPosition(position) {
+        document.getElementById("map").innerHTML = 
+            "Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude;
+    }
+    
+    function showError(error) {
+        let errorMessage = "";
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                errorMessage = "User denied the request for geolocation.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                errorMessage = "The request to get location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred.";
+                break;
+        }
+        document.getElementById("map").innerHTML = "Error: " + errorMessage;
+    }
+    </script>
+</body>
+</html>
